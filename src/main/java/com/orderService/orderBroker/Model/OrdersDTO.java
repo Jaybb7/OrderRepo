@@ -1,24 +1,20 @@
-package com.orderService.orderBroker.Entity;
+package com.orderService.orderBroker.Model;
 
+import com.orderService.orderBroker.Entity.Items;
 import com.orderService.orderBroker.Enums.OrderStatus;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Orders {
+public class OrdersDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long orderId;
     private long userId;
-    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-    @ManyToOne
     private Items item;
+
 
 }
