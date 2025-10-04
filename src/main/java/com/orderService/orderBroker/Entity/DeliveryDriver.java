@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = "shipments")
 public class DeliveryDriver {
 
     @Id
@@ -21,7 +23,7 @@ public class DeliveryDriver {
     private String driverPhone;
     private String driverEmail;
     private String driverAddress;
-    @OneToMany(mappedBy = "deliveryDriver", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "deliveryDriver", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Shipment> shipments = new ArrayList<>();
 
 }

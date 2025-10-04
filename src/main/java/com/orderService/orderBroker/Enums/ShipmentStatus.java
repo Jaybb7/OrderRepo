@@ -7,5 +7,6 @@ public enum ShipmentStatus {
     DELAYED,
     ON_ROAD,
     CANCELLED,
+    PENDING
 
 }
