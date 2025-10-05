@@ -1,13 +1,26 @@
 package com.orderService.orderBroker.Service;
 
-import com.orderService.orderBroker.Model.PaymentGateway;
+import com.orderService.orderBroker.Entity.Orders;
+import com.orderService.orderBroker.Entity.Payment;
+import com.orderService.orderBroker.Enums.PaymentStatus;
+import com.orderService.orderBroker.Repository.PaymentRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
-public class PaymentService extends PaymentGateway<String> {
+import java.util.Map;
 
-    @Override
-    public String processPayment() {
-        return "Payment Successful";
+@Service
+@RequiredArgsConstructor
+public abstract class PaymentService {
+
+    private final PaymentRepository paymentRepository;
+
+    public PaymentStatus checkPaymentStatus(Payment payment) {
+        return paymentRepository.findById(payment.getPaymentId())
+                .map(Payment::getPaymentStatus)
+                .orElse(null);
     }
+
+    public abstract Map<Boolean, Long> processPayment(Orders order);
+
 }
