@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <!-- Console Appender for local debugging -->
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg [correlationId=%X{correlationId}]%n%throwable"/>
+        </Console>
+
+        <!-- Splunk HTTP Event Collector (HEC) Appender -->
+        <SplunkHttp
+                name="splunkhttp"
+                url="http://localhost:8088"
+                token="ea93c6a1-fd8a-4c60-9c75-6eb1aaa993e2"
+                host="order-service"
+                index="order_broker_api"
+                source="orderService"
+                sourcetype="log4j"
+                disableCertificateValidation="true">
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg [correlationId=%X{correlationId}]%n%throwable"/>
+        </SplunkHttp>
+    </Appenders>
+
+    <Loggers>
+        <!-- Root logger (global) -->
+        <Root level="info">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="splunkhttp"/>
+        </Root>
+
+        <!-- Dedicated logger for Order Broker module -->
+        <Logger name="com.orderService.orderBroker" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="splunkhttp"/>
+        </Logger>
+
+        <!-- Optional: Enable Splunk internal debug -->
+        <Logger name="com.splunk.logging" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+    </Loggers>
+</Configuration>
