@@ -65,7 +65,7 @@ public class OrderService {
             }
 
             foundItem.setQuantity(foundItem.getQuantity() - orderRequest.getOrderQuantity());
-            itemsRepository.save(foundItem);
+            itemsRepository.saveAndFlush(foundItem);
             logger.info("Updated item quantity for itemId: {}, new quantity: {}, correlationId={}",
                     orderRequest.getItemId(), foundItem.getQuantity(), correlationId);
 
