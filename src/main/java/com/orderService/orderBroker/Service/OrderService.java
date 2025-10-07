@@ -5,11 +5,13 @@ import com.orderService.orderBroker.Entity.Orders;
 import com.orderService.orderBroker.Enums.OrderStatus;
 import com.orderService.orderBroker.Enums.ShipmentStatus;
 import com.orderService.orderBroker.Model.OrderRequest;
+import com.orderService.orderBroker.Model.OrdersDTO;
 import com.orderService.orderBroker.Model.ShipmentDTO;
 import com.orderService.orderBroker.Repository.ItemsRepository;
 import com.orderService.orderBroker.Repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.MDC;
+import org.springframework.beans.BeanUtils;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -17,8 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -109,5 +114,37 @@ public class OrderService {
         } finally {
             MDC.clear();
         }
+    }
+
+    public List<OrdersDTO> getOrdersForUser(Long userId) {
+        return orderRepository.findAllByUserId(userId).stream()
+                .map(order -> {
+                    OrdersDTO ordersDTO = new OrdersDTO();
+                    BeanUtils.copyProperties(order, ordersDTO);
+                    return ordersDTO;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public OrdersDTO findOrder(Long orderId) {
+        logger.info("Fetching order with ID: {}", orderId);
+        return orderRepository.findById(orderId)
+                .map(order -> {
+                    OrdersDTO ordersDTO = new OrdersDTO();
+                    BeanUtils.copyProperties(order, ordersDTO);
+                    logger.info("Order found with ID: {}", orderId);
+                    return ordersDTO;
+                })
+                .orElseGet(() -> {
+                    logger.warn("No order found with ID: {}", orderId);
+                    return null;
+                });
+    }
+
+    public Boolean saveOrder(OrdersDTO order) {
+        Orders orders = new Orders();
+        BeanUtils.copyProperties(order, orders);
+        orderRepository.save(orders);
+        return true;
     }
 }

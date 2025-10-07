@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -20,5 +23,7 @@ public class Orders {
     private OrderStatus orderStatus;
     @ManyToOne
     private Items item;
+    @ElementCollection
+    private List<String> comments = new ArrayList<>();
 
 }
