@@ -13,8 +13,9 @@ import java.util.List;
 @NoArgsConstructor
 public class DeliveryDriverDTO {
 
-    private String driverId;
+    private Long driverId;
     private String driverName;
+    private Double ratings;
     private String driverPhone;
     private String driverEmail;
     private String driverAddress;

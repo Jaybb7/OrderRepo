@@ -49,20 +49,3 @@ VALUES (9, 'OnePlus', 4800, true);
 INSERT INTO mobile_phone (id, brand, battery_capacity, has5g)
 VALUES (10, 'Xiaomi', 5000, true);
 
--- ==========================
--- Delivery Drivers
--- ==========================
-INSERT INTO delivery_driver (driver_id, driver_name, driver_phone, driver_email, driver_address)
-VALUES (1, 'Alice Johnson', '0400000001', 'alice.johnson@example.com', '123 King St, Sydney');
-
-INSERT INTO delivery_driver (driver_id, driver_name, driver_phone, driver_email, driver_address)
-VALUES (2, 'Bob Smith', '0400000002', 'bob.smith@example.com', '456 Queen St, Melbourne');
-
-INSERT INTO delivery_driver (driver_id, driver_name, driver_phone, driver_email, driver_address)
-VALUES (3, 'Charlie Brown', '0400000003', 'charlie.brown@example.com', '789 George St, Brisbane');
-
-INSERT INTO delivery_driver (driver_id, driver_name, driver_phone, driver_email, driver_address)
-VALUES (4, 'Diana Prince', '0400000004', 'diana.prince@example.com', '321 Crown St, Perth');
-
-INSERT INTO delivery_driver (driver_id, driver_name, driver_phone, driver_email, driver_address)
-VALUES (5, 'Ethan Hunt', '0400000005', 'ethan.hunt@example.com', '654 Harbour Rd, Adelaide');

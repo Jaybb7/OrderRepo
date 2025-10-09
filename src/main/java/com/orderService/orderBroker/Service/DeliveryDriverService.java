@@ -1,11 +1,17 @@
 package com.orderService.orderBroker.Service;
 
 import com.orderService.orderBroker.Entity.DeliveryDriver;
+import com.orderService.orderBroker.Model.DeliveryDriverDTO;
 import com.orderService.orderBroker.Repository.DeliveryDriverRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +33,19 @@ public class DeliveryDriverService {
             logger.error("Error occurred while finding a driver", e);
             throw new RuntimeException("Failed to find a driver", e);
         }
+    }
+
+    public List<DeliveryDriverDTO> findHighestRatedDriver(){
+        List<DeliveryDriver> drivers = deliveryDriverRepository.findHighestRatedDriver();
+        List<DeliveryDriverDTO> driverDTOs = new ArrayList<>();
+        if(!drivers.isEmpty()){
+            driverDTOs = drivers.stream().map(driver -> {
+                DeliveryDriverDTO driverDTO = new DeliveryDriverDTO();
+                BeanUtils.copyProperties(driver,driverDTO);
+                return driverDTO;
+            }).toList();
+        }
+        return driverDTOs;
     }
 
 }

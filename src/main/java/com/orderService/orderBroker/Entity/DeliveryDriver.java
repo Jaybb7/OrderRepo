@@ -1,6 +1,7 @@
 package com.orderService.orderBroker.Entity;
 
 import jakarta.persistence.*;
+import jakarta.persistence.Index;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(
+    indexes = {
+        @Index(name = "idx_ratings", columnList = "ratings")
+    }
+)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +27,7 @@ public class DeliveryDriver {
     private Long driverId;
     private String driverName;
     private String driverPhone;
+    private Double ratings;
     private String driverEmail;
     private String driverAddress;
     @OneToMany(mappedBy = "deliveryDriver", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
